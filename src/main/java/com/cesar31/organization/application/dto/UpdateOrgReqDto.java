@@ -17,7 +17,6 @@ public class UpdateOrgReqDto extends SelfValidating {
     @NotNull
     private UUID organizationId;
 
-    @NotNull
     private UUID parentId;
 
     @NotNull

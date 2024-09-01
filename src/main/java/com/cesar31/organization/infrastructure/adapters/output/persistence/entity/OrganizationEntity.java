@@ -25,10 +25,10 @@ public class OrganizationEntity {
     @Column(name = "parent_organization_id")
     private UUID parentOrganizationId;
 
-    @Column(name = "name")
+    @Column(name = "organization_name")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "organization_email")
     private String email;
 
     @Column(name = "business_name")

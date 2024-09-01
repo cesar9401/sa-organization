@@ -14,7 +14,6 @@ import java.util.UUID;
 @Setter
 public class CreateOrgReqDto extends SelfValidating {
 
-    @NotNull
     private UUID parentId;
 
     @NotNull

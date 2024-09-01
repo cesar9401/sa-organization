@@ -14,6 +14,7 @@ public interface OrganizationMapper {
     @Mapping(source = "email", target = "email")
     @Mapping(source = "businessName", target = "businessName")
     @Mapping(source = "taxNumber", target = "taxNumber")
+    @Mapping(target = "catOrganizationType", ignore = true)
     Organization toOrganization(CreateOrgReqDto reqDto);
 
     @Mapping(source = "organizationId", target = "organizationId")
@@ -22,5 +23,6 @@ public interface OrganizationMapper {
     @Mapping(source = "email", target = "email")
     @Mapping(source = "businessName", target = "businessName")
     @Mapping(source = "taxNumber", target = "taxNumber")
+    @Mapping(target = "catOrganizationType", ignore = true)
     Organization toOrganization(UpdateOrgReqDto reqDto);
 }

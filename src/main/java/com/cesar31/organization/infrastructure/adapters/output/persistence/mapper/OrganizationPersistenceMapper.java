@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = {CategoryPersistenceMapper.class})
 public interface OrganizationPersistenceMapper {
 
     @Mapping(source = "organizationId", target = "organizationId")
