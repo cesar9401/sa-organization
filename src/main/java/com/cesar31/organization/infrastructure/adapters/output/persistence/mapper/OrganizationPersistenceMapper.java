@@ -6,6 +6,8 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper
 public interface OrganizationPersistenceMapper {
 
@@ -16,6 +18,7 @@ public interface OrganizationPersistenceMapper {
     @Mapping(source = "businessName", target = "businessName")
     @Mapping(source = "tax", target = "taxNumber")
     Organization toOrganization(OrganizationEntity entity);
+    List<Organization> toOrganizations(List<OrganizationEntity> entities);
 
     @InheritInverseConfiguration
     OrganizationEntity toOrganizationEntity(Organization organization);
