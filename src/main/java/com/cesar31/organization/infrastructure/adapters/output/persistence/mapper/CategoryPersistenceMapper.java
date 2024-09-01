@@ -1,0 +1,18 @@
+package com.cesar31.organization.infrastructure.adapters.output.persistence.mapper;
+
+import com.cesar31.organization.domain.Category;
+import com.cesar31.organization.infrastructure.adapters.output.persistence.entity.CategoryEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+import java.util.List;
+
+@Mapper
+public interface CategoryPersistenceMapper {
+
+    @Mapping(source = "categoryId", target = "categoryId")
+    @Mapping(source = "parentId", target = "parentCategoryId")
+    @Mapping(source = "description", target = "description")
+    Category toCategory(CategoryEntity entity);
+    List<Category> toCategoryList(List<CategoryEntity> entities);
+}
