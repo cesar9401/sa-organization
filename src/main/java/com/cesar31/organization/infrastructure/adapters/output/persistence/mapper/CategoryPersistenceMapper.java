@@ -2,6 +2,7 @@ package com.cesar31.organization.infrastructure.adapters.output.persistence.mapp
 
 import com.cesar31.organization.domain.Category;
 import com.cesar31.organization.infrastructure.adapters.output.persistence.entity.CategoryEntity;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,5 +15,11 @@ public interface CategoryPersistenceMapper {
     @Mapping(source = "parentId", target = "parentCategoryId")
     @Mapping(source = "description", target = "description")
     Category toCategory(CategoryEntity entity);
+
     List<Category> toCategoryList(List<CategoryEntity> entities);
+
+
+    @InheritInverseConfiguration
+    CategoryEntity toCategoryEntity(Category category);
+    List<CategoryEntity> toCategoryEntities(List<Category> categories);
 }
