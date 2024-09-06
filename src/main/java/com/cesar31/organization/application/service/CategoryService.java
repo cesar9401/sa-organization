@@ -21,6 +21,11 @@ public class CategoryService implements CategoryUseCase {
     }
 
     @Override
+    public Category findBy(Long categoryId) {
+        return categoryOutputPort.findBy(categoryId);
+    }
+
+    @Override
     public List<Category> findByParentId(Long parentId) {
         return categoryOutputPort.findByParentId(parentId);
     }

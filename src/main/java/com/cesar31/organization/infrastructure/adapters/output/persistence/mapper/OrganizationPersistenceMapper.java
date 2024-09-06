@@ -17,6 +17,8 @@ public interface OrganizationPersistenceMapper {
     @Mapping(source = "email", target = "email")
     @Mapping(source = "businessName", target = "businessName")
     @Mapping(source = "tax", target = "taxNumber")
+    @Mapping(source = "catOrganizationType", target = "catOrganizationType")
+    @Mapping(source = "catStatus", target = "catStatus")
     Organization toOrganization(OrganizationEntity entity);
     List<Organization> toOrganizations(List<OrganizationEntity> entities);
 

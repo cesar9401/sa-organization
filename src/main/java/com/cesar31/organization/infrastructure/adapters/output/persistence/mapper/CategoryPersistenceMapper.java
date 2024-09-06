@@ -21,5 +21,6 @@ public interface CategoryPersistenceMapper {
 
     @InheritInverseConfiguration
     CategoryEntity toCategoryEntity(Category category);
+
     List<CategoryEntity> toCategoryEntities(List<Category> categories);
 }

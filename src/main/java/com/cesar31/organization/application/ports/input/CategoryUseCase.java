@@ -9,5 +9,7 @@ public interface CategoryUseCase {
 
     Optional<Category> findById(Long categoryId);
 
+    Category findBy(Long categoryId);
+
     List<Category> findByParentId(Long parentId);
 }

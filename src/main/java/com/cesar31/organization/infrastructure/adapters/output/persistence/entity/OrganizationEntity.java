@@ -40,4 +40,8 @@ public class OrganizationEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cat_organization_type")
     private CategoryEntity catOrganizationType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cat_status")
+    private CategoryEntity catStatus;
 }

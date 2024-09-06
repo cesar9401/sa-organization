@@ -16,4 +16,5 @@ public class Organization {
     private String businessName;
     private String taxNumber;
     private Category catOrganizationType;
+    private Category catStatus;
 }

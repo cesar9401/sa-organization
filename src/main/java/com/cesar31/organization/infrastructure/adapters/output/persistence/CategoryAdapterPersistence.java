@@ -27,6 +27,12 @@ public class CategoryAdapterPersistence implements CategoryOutputPort {
     }
 
     @Override
+    public Category findBy(Long categoryId) {
+        var categoryEntity = entityRepository.findByCategoryId(categoryId);
+        return mapper.toCategory(categoryEntity);
+    }
+
+    @Override
     public List<Category> findByParentId(Long parentId) {
         return mapper.toCategoryList(entityRepository.findByParentId(parentId));
     }

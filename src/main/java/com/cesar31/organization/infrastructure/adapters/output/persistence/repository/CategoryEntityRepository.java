@@ -4,11 +4,10 @@ import com.cesar31.organization.infrastructure.adapters.output.persistence.entit
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CategoryEntityRepository extends JpaRepository<CategoryEntity, Long> {
 
-    Optional<CategoryEntity> findByCategoryId(Long categoryId);
+    CategoryEntity findByCategoryId(Long categoryId);
 
     List<CategoryEntity> findByParentId(Long parentCategoryId);
 }

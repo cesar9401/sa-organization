@@ -2,6 +2,7 @@ package com.cesar31.organization.application.service;
 
 import com.cesar31.organization.application.dto.CreateOrgReqDto;
 import com.cesar31.organization.application.dto.UpdateOrgReqDto;
+import com.cesar31.organization.application.enums.CategoryEnum;
 import com.cesar31.organization.application.exception.ApplicationException;
 import com.cesar31.organization.application.exception.EntityNotFoundException;
 import com.cesar31.organization.application.mapper.OrganizationMapper;
@@ -49,12 +50,15 @@ public class OrganizationService implements OrganizationUseCase {
         var existsByEmail = outputPort.existsByEmail(reqDto.getEmail(), null);
         if (existsByEmail) throw new ApplicationException("email_already_exists");
 
-        var category = categoryUseCase.findById(reqDto.getCatOrganizationType());
-        if (category.isEmpty()) throw new EntityNotFoundException("category_not_found");
+        var catOrgType = categoryUseCase.findById(reqDto.getCatOrganizationType());
+        if (catOrgType.isEmpty()) throw new EntityNotFoundException("category_not_found");
+
+        var catStatus = categoryUseCase.findBy(CategoryEnum.ES_ACTIVE.categoryId);
 
         var organization = mapper.toOrganization(reqDto);
         organization.setOrganizationId(UUID.randomUUID());
-        organization.setCatOrganizationType(category.get());
+        organization.setCatOrganizationType(catOrgType.get());
+        organization.setCatStatus(catStatus);
         return outputPort.save(organization);
     }
 
@@ -73,6 +77,8 @@ public class OrganizationService implements OrganizationUseCase {
         var originalOrganization = opt.get();
         if (!originalOrganization.getOrganizationId().equals(reqDto.getOrganizationId())) throw new ApplicationException("invalid_update");
 
+        if (originalOrganization.getCatStatus().is(CategoryEnum.ES_LOCKED)) throw new EntityNotFoundException("organization_locked");
+
         var existsByEmail = outputPort.existsByEmail(reqDto.getEmail(), organizationId);
         if (existsByEmail) throw new ApplicationException("email_already_exists");
 
@@ -81,6 +87,7 @@ public class OrganizationService implements OrganizationUseCase {
 
         var organization = mapper.toOrganization(reqDto);
         organization.setCatOrganizationType(category.get());
+        organization.setCatStatus(originalOrganization.getCatStatus());
         return outputPort.save(organization);
     }
 }
