@@ -6,8 +6,8 @@ import com.cesar31.organization.application.enums.CategoryEnum;
 import com.cesar31.organization.application.exception.ApplicationException;
 import com.cesar31.organization.application.exception.EntityNotFoundException;
 import com.cesar31.organization.application.mapper.OrganizationMapper;
-import com.cesar31.organization.application.ports.input.CategoryUseCase;
 import com.cesar31.organization.application.ports.input.OrganizationUseCase;
+import com.cesar31.organization.application.ports.output.CategoryOutputPort;
 import com.cesar31.organization.application.ports.output.OrganizationOutputPort;
 import com.cesar31.organization.domain.Organization;
 
@@ -18,12 +18,12 @@ import java.util.UUID;
 public class OrganizationService implements OrganizationUseCase {
 
     private final OrganizationOutputPort outputPort;
-    private final CategoryUseCase categoryUseCase;
+    private final CategoryOutputPort categoryOutputPort;
     private final OrganizationMapper mapper;
 
-    public OrganizationService(OrganizationOutputPort outputPort, CategoryUseCase categoryUseCase, OrganizationMapper mapper) {
+    public OrganizationService(OrganizationOutputPort outputPort, CategoryOutputPort categoryOutputPort, OrganizationMapper mapper) {
         this.outputPort = outputPort;
-        this.categoryUseCase = categoryUseCase;
+        this.categoryOutputPort = categoryOutputPort;
         this.mapper = mapper;
     }
 
@@ -50,10 +50,10 @@ public class OrganizationService implements OrganizationUseCase {
         var existsByEmail = outputPort.existsByEmail(reqDto.getEmail(), null);
         if (existsByEmail) throw new ApplicationException("email_already_exists");
 
-        var catOrgType = categoryUseCase.findById(reqDto.getCatOrganizationType());
+        var catOrgType = categoryOutputPort.findById(reqDto.getCatOrganizationType());
         if (catOrgType.isEmpty()) throw new EntityNotFoundException("category_not_found");
 
-        var catStatus = categoryUseCase.findBy(CategoryEnum.ES_ACTIVE.categoryId);
+        var catStatus = categoryOutputPort.findBy(CategoryEnum.ES_ACTIVE.categoryId);
 
         var organization = mapper.toOrganization(reqDto);
         organization.setOrganizationId(UUID.randomUUID());
@@ -82,7 +82,7 @@ public class OrganizationService implements OrganizationUseCase {
         var existsByEmail = outputPort.existsByEmail(reqDto.getEmail(), organizationId);
         if (existsByEmail) throw new ApplicationException("email_already_exists");
 
-        var category = categoryUseCase.findById(reqDto.getCatOrganizationType());
+        var category = categoryOutputPort.findById(reqDto.getCatOrganizationType());
         if (category.isEmpty()) throw new EntityNotFoundException("category_not_found");
 
         var organization = mapper.toOrganization(reqDto);

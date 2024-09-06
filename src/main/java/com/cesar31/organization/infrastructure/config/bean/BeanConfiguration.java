@@ -21,7 +21,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    OrganizationUseCase organizationService(final OrganizationOutputPort outputPort, final CategoryService categoryService, final OrganizationMapper mapper) {
-        return new OrganizationService(outputPort, categoryService, mapper);
+    OrganizationUseCase organizationService(final OrganizationOutputPort outputPort, final CategoryOutputPort categoryOutputPort, final OrganizationMapper mapper) {
+        return new OrganizationService(outputPort, categoryOutputPort, mapper);
     }
 }

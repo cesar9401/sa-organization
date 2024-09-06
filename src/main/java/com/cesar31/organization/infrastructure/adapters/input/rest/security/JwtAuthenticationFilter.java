@@ -37,7 +37,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (jwtService.isValid(token)) {
                     var claims = jwtService.extractClaims(token);
                     var username = claims.getSubject();
-                    var organization = claims.get("org", String.class);
+                    var organizationId = claims.get("orgId", String.class);
+                    var userId = claims.get("userId", String.class);
                     List<Map<String, String>> authoritiesList = (List<Map<String, String>>) claims.get("authorities");
 
                     var authorities = authoritiesList
@@ -45,7 +46,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             .map(authority -> new SimpleGrantedAuthority(authority.get("authority")))
                             .toList();
 
-                    var authData = new SaAuthenticationToken(username, null, authorities, UUID.fromString(organization));
+                    var authData = new SaAuthenticationToken(
+                            username,
+                            null,
+                            authorities,
+                            UUID.fromString(userId),
+                            organizationId != null && !organizationId.isEmpty() ? UUID.fromString(organizationId) : null
+                    );
+
                     SecurityContextHolder.getContext().setAuthentication(authData);
                 }
             } catch (Exception e) {
