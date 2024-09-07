@@ -10,7 +10,7 @@ import java.util.UUID;
 @Setter
 public class Dish {
 
-    private UUID disId;
+    private UUID dishId;
     private UUID organizationId;
     private String name;
     private String description;

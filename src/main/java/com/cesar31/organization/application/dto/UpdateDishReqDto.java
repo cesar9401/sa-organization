@@ -15,7 +15,7 @@ import java.util.UUID;
 public class UpdateDishReqDto extends SelfValidating {
 
     @NotNull
-    private UUID disId;
+    private UUID dishId;
 
     private UUID organizationId;
 

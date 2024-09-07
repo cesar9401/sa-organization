@@ -60,6 +60,7 @@ public class DishService implements DishUseCase {
         if (!org.getCatOrganizationType().is(CategoryEnum.OT_RESTAURANT)) throw new ApplicationException("organization_is_not_a_restaurant");
 
         var dish = mapper.toDish(reqDto);
+        dish.setDishId(UUID.randomUUID());
         dish.setOrganizationId(organizationId);
         return dishOutputPort.save(dish);
     }
@@ -75,7 +76,7 @@ public class DishService implements DishUseCase {
         if (dishOpt.isEmpty()) throw new EntityNotFoundException("dish_not_found");
 
         var originalDish = dishOpt.get();
-        if (originalDish.getDisId().equals(reqDto.getDisId())) throw new ApplicationException("invalid_update");
+        if (!originalDish.getDishId().equals(reqDto.getDishId())) throw new ApplicationException("invalid_update");
 
         var dish = mapper.toDish(reqDto);
         dish.setOrganizationId(originalDish.getOrganizationId());
