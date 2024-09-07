@@ -1,4 +1,4 @@
-package com.cesar31.organization.application.mapper;
+package com.cesar31.organization.application.exception;
 
 public class ForbiddenException extends Exception {
 

@@ -2,7 +2,7 @@ package com.cesar31.organization.infrastructure.adapters.input.rest.exception;
 
 import com.cesar31.organization.application.exception.ApplicationException;
 import com.cesar31.organization.application.exception.EntityNotFoundException;
-import com.cesar31.organization.application.mapper.ForbiddenException;
+import com.cesar31.organization.application.exception.ForbiddenException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

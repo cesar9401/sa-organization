@@ -5,7 +5,7 @@ import com.cesar31.organization.application.dto.UpdateDishReqDto;
 import com.cesar31.organization.application.exception.ApplicationException;
 import com.cesar31.organization.application.exception.EntityNotFoundException;
 import com.cesar31.organization.application.mapper.DishMapper;
-import com.cesar31.organization.application.mapper.ForbiddenException;
+import com.cesar31.organization.application.exception.ForbiddenException;
 import com.cesar31.organization.application.ports.input.DishUseCase;
 import com.cesar31.organization.application.ports.input.OrganizationUseCase;
 import com.cesar31.organization.application.ports.output.CurrentUserOutputPort;
