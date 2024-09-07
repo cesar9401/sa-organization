@@ -38,6 +38,11 @@ public class OrganizationService implements OrganizationUseCase {
     }
 
     @Override
+    public Boolean existsById(UUID organizationId) {
+        return outputPort.findById(organizationId).isPresent();
+    }
+
+    @Override
     public Organization save(CreateOrgReqDto reqDto) throws ApplicationException, EntityNotFoundException {
         // validation
         reqDto.validateSelf();

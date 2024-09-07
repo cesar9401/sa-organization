@@ -16,6 +16,8 @@ public interface OrganizationUseCase {
 
     Optional<Organization> findById(UUID organizationId);
 
+    Boolean existsById(UUID organizationId);
+
     Organization save(CreateOrgReqDto reqDto) throws ApplicationException, EntityNotFoundException;
 
     Organization update(UUID organizationId, UpdateOrgReqDto reqDto) throws ApplicationException, EntityNotFoundException;

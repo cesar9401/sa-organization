@@ -45,6 +45,13 @@ public class OrganizationRestAdapter {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("exists/{organizationId}")
+    @Operation(description = "Check if any organization exists by its id.")
+    public ResponseEntity<Boolean> exists(@PathVariable("organizationId") UUID organizationId) {
+        var exists = organizationUseCase.existsById(organizationId);
+        return ResponseEntity.ok(exists);
+    }
+
     @PostMapping
     @Operation(description = "Create a new organization.")
     public ResponseEntity<Organization> create(@RequestBody CreateOrgReqDto reqDto) throws ApplicationException, EntityNotFoundException {
