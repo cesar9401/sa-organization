@@ -1,11 +1,16 @@
 package com.cesar31.organization.infrastructure.config.bean;
 
+import com.cesar31.organization.application.mapper.DishMapper;
 import com.cesar31.organization.application.mapper.OrganizationMapper;
 import com.cesar31.organization.application.ports.input.CategoryUseCase;
+import com.cesar31.organization.application.ports.input.DishUseCase;
 import com.cesar31.organization.application.ports.input.OrganizationUseCase;
 import com.cesar31.organization.application.ports.output.CategoryOutputPort;
+import com.cesar31.organization.application.ports.output.CurrentUserOutputPort;
+import com.cesar31.organization.application.ports.output.DishOutputPort;
 import com.cesar31.organization.application.ports.output.OrganizationOutputPort;
 import com.cesar31.organization.application.service.CategoryService;
+import com.cesar31.organization.application.service.DishService;
 import com.cesar31.organization.application.service.OrganizationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,7 +26,21 @@ public class BeanConfiguration {
     }
 
     @Bean
-    OrganizationUseCase organizationService(final OrganizationOutputPort outputPort, final CategoryOutputPort categoryOutputPort, final OrganizationMapper mapper) {
+    OrganizationUseCase organizationService(
+            final OrganizationOutputPort outputPort,
+            final CategoryOutputPort categoryOutputPort,
+            final OrganizationMapper mapper
+    ) {
         return new OrganizationService(outputPort, categoryOutputPort, mapper);
+    }
+
+    @Bean
+    DishUseCase dishService(
+            final DishOutputPort dishOutputPort,
+            final DishMapper mapper,
+            final OrganizationUseCase organizationUseCase,
+            final CurrentUserOutputPort currentUserOutputPort
+    ) {
+        return new DishService(dishOutputPort, mapper, organizationUseCase, currentUserOutputPort);
     }
 }

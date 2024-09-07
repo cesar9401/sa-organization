@@ -1,6 +1,6 @@
 package com.cesar31.organization.domain;
 
-import com.cesar31.organization.application.enums.CategoryEnum;
+import com.cesar31.organization.application.util.enums.CategoryEnum;
 import lombok.Getter;
 import lombok.Setter;
 

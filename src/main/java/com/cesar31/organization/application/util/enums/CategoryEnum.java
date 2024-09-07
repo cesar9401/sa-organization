@@ -1,4 +1,4 @@
-package com.cesar31.organization.application.enums;
+package com.cesar31.organization.application.util.enums;
 
 public enum CategoryEnum {
 

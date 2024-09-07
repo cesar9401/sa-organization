@@ -2,7 +2,7 @@ package com.cesar31.organization.application.service;
 
 import com.cesar31.organization.application.dto.CreateOrgReqDto;
 import com.cesar31.organization.application.dto.UpdateOrgReqDto;
-import com.cesar31.organization.application.enums.CategoryEnum;
+import com.cesar31.organization.application.util.enums.CategoryEnum;
 import com.cesar31.organization.application.exception.ApplicationException;
 import com.cesar31.organization.application.exception.EntityNotFoundException;
 import com.cesar31.organization.application.mapper.OrganizationMapper;
