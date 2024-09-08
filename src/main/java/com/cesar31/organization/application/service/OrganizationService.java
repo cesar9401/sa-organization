@@ -2,6 +2,8 @@ package com.cesar31.organization.application.service;
 
 import com.cesar31.organization.application.dto.CreateOrgReqDto;
 import com.cesar31.organization.application.dto.UpdateOrgReqDto;
+import com.cesar31.organization.application.exception.ForbiddenException;
+import com.cesar31.organization.application.ports.output.CurrentUserOutputPort;
 import com.cesar31.organization.application.util.enums.CategoryEnum;
 import com.cesar31.organization.application.exception.ApplicationException;
 import com.cesar31.organization.application.exception.EntityNotFoundException;
@@ -9,6 +11,7 @@ import com.cesar31.organization.application.mapper.OrganizationMapper;
 import com.cesar31.organization.application.ports.input.OrganizationUseCase;
 import com.cesar31.organization.application.ports.output.CategoryOutputPort;
 import com.cesar31.organization.application.ports.output.OrganizationOutputPort;
+import com.cesar31.organization.application.util.enums.RoleEnum;
 import com.cesar31.organization.domain.Organization;
 
 import java.util.List;
@@ -20,11 +23,18 @@ public class OrganizationService implements OrganizationUseCase {
     private final OrganizationOutputPort outputPort;
     private final CategoryOutputPort categoryOutputPort;
     private final OrganizationMapper mapper;
+    private final CurrentUserOutputPort currentUserOutputPort;
 
-    public OrganizationService(OrganizationOutputPort outputPort, CategoryOutputPort categoryOutputPort, OrganizationMapper mapper) {
+    public OrganizationService(
+            OrganizationOutputPort outputPort,
+            CategoryOutputPort categoryOutputPort,
+            OrganizationMapper mapper,
+            CurrentUserOutputPort currentUserOutputPort
+    ) {
         this.outputPort = outputPort;
         this.categoryOutputPort = categoryOutputPort;
         this.mapper = mapper;
+        this.currentUserOutputPort = currentUserOutputPort;
     }
 
     @Override
@@ -43,9 +53,12 @@ public class OrganizationService implements OrganizationUseCase {
     }
 
     @Override
-    public Organization save(CreateOrgReqDto reqDto) throws ApplicationException, EntityNotFoundException {
+    public Organization save(CreateOrgReqDto reqDto) throws Exception {
         // validation
         reqDto.validateSelf();
+
+        var isRoot = currentUserOutputPort.hasRole(RoleEnum.ROOT.roleId);
+        if (!isRoot) throw new ForbiddenException("not_allowed_to_create_organizations");
 
         if (reqDto.getParentId() != null) {
             var parent = outputPort.findById(reqDto.getParentId());
@@ -68,8 +81,11 @@ public class OrganizationService implements OrganizationUseCase {
     }
 
     @Override
-    public Organization update(UUID organizationId, UpdateOrgReqDto reqDto) throws ApplicationException, EntityNotFoundException {
+    public Organization update(UUID organizationId, UpdateOrgReqDto reqDto) throws Exception {
         reqDto.validateSelf();
+
+        var isRoot = currentUserOutputPort.hasRole(RoleEnum.ROOT.roleId);
+        if (!isRoot) throw new ForbiddenException("not_allowed_to_update_organizations");
 
         if (reqDto.getParentId() != null) {
             var parent = outputPort.findById(reqDto.getParentId());

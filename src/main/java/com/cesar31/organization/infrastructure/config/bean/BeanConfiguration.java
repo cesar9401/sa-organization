@@ -33,9 +33,10 @@ public class BeanConfiguration {
     OrganizationUseCase organizationService(
             final OrganizationOutputPort outputPort,
             final CategoryOutputPort categoryOutputPort,
-            final OrganizationMapper mapper
+            final OrganizationMapper mapper,
+            final CurrentUserOutputPort currentUserOutputPort
     ) {
-        return new OrganizationService(outputPort, categoryOutputPort, mapper);
+        return new OrganizationService(outputPort, categoryOutputPort, mapper, currentUserOutputPort);
     }
 
     @Bean

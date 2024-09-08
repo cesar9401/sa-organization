@@ -55,14 +55,24 @@ public class OrganizationRestAdapter {
     @PostMapping
     @Operation(description = "Create a new organization.")
     public ResponseEntity<Organization> create(@RequestBody CreateOrgReqDto reqDto) throws ApplicationException, EntityNotFoundException {
-        var newOrganization = organizationUseCase.save(reqDto);
+        Organization newOrganization = null;
+        try {
+            newOrganization = organizationUseCase.save(reqDto);
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
         return new ResponseEntity<>(newOrganization, HttpStatus.CREATED);
     }
 
     @PutMapping("{organizationId}")
     @Operation(description = "Update any organization by its id.")
     public ResponseEntity<Organization> update(@PathVariable("organizationId") UUID organizationId, @RequestBody UpdateOrgReqDto reqDto) throws ApplicationException, EntityNotFoundException {
-        var updatedOrganization = organizationUseCase.update(organizationId, reqDto);
+        Organization updatedOrganization = null;
+        try {
+            updatedOrganization = organizationUseCase.update(organizationId, reqDto);
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
         return new ResponseEntity<>(updatedOrganization, HttpStatus.OK);
     }
 }
