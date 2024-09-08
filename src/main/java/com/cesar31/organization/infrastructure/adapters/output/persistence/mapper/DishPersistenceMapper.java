@@ -15,6 +15,7 @@ public interface DishPersistenceMapper {
     @Mapping(source = "organizationId", target = "organizationId")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
+    @Mapping(source = "stock", target = "stock")
     @Mapping(source = "price", target = "price")
     Dish toDish(DishEntity entity);
     List<Dish> toDishes(List<DishEntity> entities);

@@ -29,6 +29,9 @@ public class DishEntity {
     @Column(name = "dish_description")
     private String description;
 
+    @Column(name = "dish_stock")
+    private Integer stock;
+
     @Column(name = "dish_price")
     private BigDecimal price;
 }

@@ -12,6 +12,7 @@ public interface DishMapper {
     @Mapping(source = "organizationId", target = "organizationId")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
+    @Mapping(source = "stock", target = "stock")
     @Mapping(source = "price", target = "price")
     Dish toDish(CreateDishReqDto reqDto);
 
@@ -19,6 +20,7 @@ public interface DishMapper {
     @Mapping(source = "organizationId", target = "organizationId")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
+    @Mapping(source = "stock", target = "stock")
     @Mapping(source = "price", target = "price")
     Dish toDish(UpdateDishReqDto reqDto);
 }
