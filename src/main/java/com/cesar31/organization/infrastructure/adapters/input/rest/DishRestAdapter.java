@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -41,6 +42,13 @@ public class DishRestAdapter {
         return dishUseCase.findById(dishId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("check-stock")
+    @Operation(description = "Consult quantity, stock and price of dishes by their identifiers and according to the organization taken from the jwt.")
+    public ResponseEntity<List<Dish>> findByDishesIds(@RequestBody Set<UUID> dishesIds) throws Exception {
+        var dishes = dishUseCase.findAllByDishIdIn(dishesIds);
+        return ResponseEntity.ok(dishes);
     }
 
     @PostMapping

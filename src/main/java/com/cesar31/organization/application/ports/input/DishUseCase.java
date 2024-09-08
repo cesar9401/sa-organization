@@ -6,11 +6,14 @@ import com.cesar31.organization.domain.Dish;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public interface DishUseCase {
 
     List<Dish> findAll() throws Exception;
+
+    List<Dish> findAllByDishIdIn(Set<UUID> dishIds) throws Exception;
 
     Optional<Dish> findById(UUID dishId) throws Exception;
 

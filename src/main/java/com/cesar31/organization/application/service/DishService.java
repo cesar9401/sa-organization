@@ -41,6 +41,12 @@ public class DishService implements DishUseCase {
     }
 
     @Override
+    public List<Dish> findAllByDishIdIn(Set<UUID> dishIds) {
+        var organizationId = currentUserOutputPort.getOrganizationId();
+        return dishOutputPort.findAllByDishIdInAndOrganizationId(dishIds, organizationId);
+    }
+
+    @Override
     public Optional<Dish> findById(UUID dishId) {
         return dishOutputPort.findByDishIdAndOrganizationId(dishId, currentUserOutputPort.getOrganizationId());
     }
@@ -57,7 +63,8 @@ public class DishService implements DishUseCase {
         if (organization.isEmpty()) throw new EntityNotFoundException("organization_not_found");
 
         var org = organization.get();
-        if (!org.getCatOrganizationType().is(CategoryEnum.OT_RESTAURANT)) throw new ApplicationException("organization_is_not_a_restaurant");
+        if (!org.getCatOrganizationType().is(CategoryEnum.OT_RESTAURANT))
+            throw new ApplicationException("organization_is_not_a_restaurant");
 
         var dish = mapper.toDish(reqDto);
         dish.setDishId(UUID.randomUUID());

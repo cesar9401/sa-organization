@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Component
@@ -24,6 +25,12 @@ public class DishAdapterPersistence implements DishOutputPort {
     @Override
     public List<Dish> findAll(UUID organizationId) {
         var dishes = repository.findAllByOrganizationId(organizationId);
+        return mapper.toDishes(dishes);
+    }
+
+    @Override
+    public List<Dish> findAllByDishIdInAndOrganizationId(Set<UUID> dishIds, UUID organizationId) {
+        var dishes = repository.findAllByDishIdInAndOrganizationId(dishIds, organizationId);
         return mapper.toDishes(dishes);
     }
 
