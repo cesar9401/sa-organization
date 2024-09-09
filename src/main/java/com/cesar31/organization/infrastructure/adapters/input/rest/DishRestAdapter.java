@@ -61,7 +61,7 @@ public class DishRestAdapter {
         return ResponseEntity.ok(updatedDish);
     }
 
-    @PutMapping("update-sock")
+    @PutMapping("update-stock")
     @Operation(description = "Update the sock of a group of dishes, of the organization the user belongs to.")
     public ResponseEntity<List<UUID>> updateStock(@RequestBody UpdateDishStockReq reqDto) throws Exception {
         var dishesIds = dishUseCase.updateDishStock(reqDto);
