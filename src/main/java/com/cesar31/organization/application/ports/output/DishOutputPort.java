@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface DishOutputPort {
 
-    List<Dish> findAll(UUID organizationId);
+    List<Dish> findAllByQuery(UUID organizationId, String dishIds);
 
     List<Dish> findAllByDishIdInAndOrganizationId(Set<UUID> dishIds, UUID organizationId);
 

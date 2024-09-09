@@ -36,14 +36,8 @@ public class DishService implements DishUseCase {
     }
 
     @Override
-    public List<Dish> findAll() {
-        return dishOutputPort.findAll(currentUserOutputPort.getOrganizationId());
-    }
-
-    @Override
-    public List<Dish> findAllByDishIdIn(Set<UUID> dishIds) {
-        var organizationId = currentUserOutputPort.getOrganizationId();
-        return dishOutputPort.findAllByDishIdInAndOrganizationId(dishIds, organizationId);
+    public List<Dish> findAll(String dishIds) {
+        return dishOutputPort.findAllByQuery(currentUserOutputPort.getOrganizationId(), dishIds);
     }
 
     @Override

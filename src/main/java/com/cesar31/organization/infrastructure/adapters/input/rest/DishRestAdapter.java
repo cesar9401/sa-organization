@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -31,8 +31,10 @@ public class DishRestAdapter {
 
     @GetMapping
     @Operation(description = "Find all the dishes of the organization the user belongs to.")
-    public ResponseEntity<List<Dish>> findAll() throws Exception {
-        var dishes = dishUseCase.findAll();
+    public ResponseEntity<List<Dish>> findAll(
+            @RequestParam(name = "dishIds", required = false) String dishIds
+    ) throws Exception {
+        var dishes = dishUseCase.findAll(dishIds);
         return ResponseEntity.ok(dishes);
     }
 
@@ -42,13 +44,6 @@ public class DishRestAdapter {
         return dishUseCase.findById(dishId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping("check-stock")
-    @Operation(description = "Consult quantity, stock and price of dishes by their identifiers and according to the organization taken from the jwt.")
-    public ResponseEntity<List<Dish>> findByDishesIds(@RequestBody Set<UUID> dishesIds) throws Exception {
-        var dishes = dishUseCase.findAllByDishIdIn(dishesIds);
-        return ResponseEntity.ok(dishes);
     }
 
     @PostMapping
