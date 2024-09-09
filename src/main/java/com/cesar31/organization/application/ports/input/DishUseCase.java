@@ -2,6 +2,7 @@ package com.cesar31.organization.application.ports.input;
 
 import com.cesar31.organization.application.dto.CreateDishReqDto;
 import com.cesar31.organization.application.dto.UpdateDishReqDto;
+import com.cesar31.organization.application.dto.UpdateDishStockReq;
 import com.cesar31.organization.domain.Dish;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface DishUseCase {
     Dish save(CreateDishReqDto reqDto) throws Exception;
 
     Dish update(UUID dishId, UpdateDishReqDto reqDto) throws Exception;
+
+    List<UUID> updateDishStock(UpdateDishStockReq reqDto) throws Exception;
 }

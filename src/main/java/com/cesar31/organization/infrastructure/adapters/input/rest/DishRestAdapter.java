@@ -2,6 +2,7 @@ package com.cesar31.organization.infrastructure.adapters.input.rest;
 
 import com.cesar31.organization.application.dto.CreateDishReqDto;
 import com.cesar31.organization.application.dto.UpdateDishReqDto;
+import com.cesar31.organization.application.dto.UpdateDishStockReq;
 import com.cesar31.organization.application.ports.input.DishUseCase;
 import com.cesar31.organization.domain.Dish;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,5 +59,12 @@ public class DishRestAdapter {
     public ResponseEntity<Dish> update(@PathVariable("dishId") UUID dishId, @RequestBody UpdateDishReqDto reqDto) throws Exception {
         var updatedDish = dishUseCase.update(dishId, reqDto);
         return ResponseEntity.ok(updatedDish);
+    }
+
+    @PutMapping("update-sock")
+    @Operation(description = "Update the sock of a group of dishes, of the organization the user belongs to.")
+    public ResponseEntity<List<UUID>> updateStock(@RequestBody UpdateDishStockReq reqDto) throws Exception {
+        var dishesIds = dishUseCase.updateDishStock(reqDto);
+        return ResponseEntity.ok(dishesIds);
     }
 }

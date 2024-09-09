@@ -73,4 +73,11 @@ public class DishAdapterPersistence implements DishOutputPort {
         var newEntity = repository.save(entity);
         return mapper.toDish(newEntity);
     }
+
+    @Override
+    public List<Dish> saveAll(List<Dish> dishes) {
+        var entities = mapper.toDishEntities(dishes);
+        var saved = repository.saveAll(entities);
+        return mapper.toDishes(saved);
+    }
 }

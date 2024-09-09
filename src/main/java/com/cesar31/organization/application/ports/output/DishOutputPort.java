@@ -16,4 +16,6 @@ public interface DishOutputPort {
     Optional<Dish> findByDishIdAndOrganizationId(UUID dishId, UUID organizationId);
 
     Dish save(Dish dish);
+
+    List<Dish> saveAll(List<Dish> dishes);
 }

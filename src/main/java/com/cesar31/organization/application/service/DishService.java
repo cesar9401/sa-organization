@@ -2,6 +2,7 @@ package com.cesar31.organization.application.service;
 
 import com.cesar31.organization.application.dto.CreateDishReqDto;
 import com.cesar31.organization.application.dto.UpdateDishReqDto;
+import com.cesar31.organization.application.dto.UpdateDishStockReq;
 import com.cesar31.organization.application.exception.ApplicationException;
 import com.cesar31.organization.application.exception.EntityNotFoundException;
 import com.cesar31.organization.application.mapper.DishMapper;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class DishService implements DishUseCase {
 
@@ -82,5 +84,50 @@ public class DishService implements DishUseCase {
         var dish = mapper.toDish(reqDto);
         dish.setOrganizationId(originalDish.getOrganizationId());
         return dishOutputPort.save(dish);
+    }
+
+    @Override
+    public List<UUID> updateDishStock(UpdateDishStockReq reqDto) throws Exception {
+        reqDto.validateSelf();
+
+        var isRestManagerOrRoot = currentUserOutputPort.hasAnyRole(allowedRoles);
+        if (!isRestManagerOrRoot) throw new ForbiddenException("not_allowed_to_update_dish_stock");
+
+        var dishIds = reqDto
+                .getOrders()
+                .stream()
+                .map(UpdateDishStockReq.DishOrderDto::getDishId)
+                .map(UUID::toString)
+                .toList();
+
+        var orders = reqDto
+                .getOrders()
+                .stream()
+                .collect(Collectors.toMap(UpdateDishStockReq.DishOrderDto::getDishId, order -> order, (o1, o2) -> {
+                    o1.setQuantity(o1.getQuantity() + o2.getQuantity());
+                    return o1;
+                }));
+
+        var strIds = String.join(",", dishIds);
+        var curDishes = this.findAll(strIds);
+
+        for (var dish : curDishes) {
+            var curStock = dish.getStock();
+            if (!orders.containsKey(dish.getDishId()))
+                throw new EntityNotFoundException(String.format("dish_not_found: %s", dish.getDishId()));
+
+            var order = orders.remove(dish.getDishId());
+            var newStock = curStock - order.getQuantity();
+            if (newStock < 0)
+                throw new ApplicationException(String.format("invalid_stock_for_dish: %s", dish.getDishId()));
+
+            dish.setStock(newStock);
+        }
+
+        var updated = dishOutputPort.saveAll(curDishes);
+        return updated
+                .stream()
+                .map(Dish::getDishId)
+                .toList();
     }
 }
